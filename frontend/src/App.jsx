@@ -1,3 +1,4 @@
+// ~~~~~~~~~~~ imports ~~~~~~~~~~~~
 import React, { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -14,6 +15,7 @@ const App = () => {
   const [socketID, setSocketId] = useState("");
   const [roomName, setRoomName] = useState("");
 
+  // ~~~~~~~~~~~~ handleSubmit Function ~~~~~~~~~~~
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("message", { room, message, senderId: socket.id });
@@ -21,6 +23,7 @@ const App = () => {
     setMessage("");
   };
 
+  // ~~~~~~~~~~~~ joinRoomHandler Function ~~~~~~~~~~~
   const joinRoomHandler = (e) => {
     e.preventDefault();
     socket.emit("join-room", roomName);
@@ -28,11 +31,13 @@ const App = () => {
   };
 
   useEffect(() => {
+    // ~~~~~~~~~~~~ socket.on("connect") ~~~~~~~~~~~~
     socket.on("connect", () => {
       setSocketId(socket.id);
       console.log("connected", socket.id);
     });
 
+    // ~~~~~~~~~~~~ socket.on("reveive-message") ~~~~~~~~~~~~
     socket.on("receive-message", (data) => {
       console.log(data);
       const isFromSelf = data.senderId === socket.id;
@@ -42,10 +47,12 @@ const App = () => {
       ]);
     });
 
+    // ~~~~~~~~~~~~ socket.on("welcome") ~~~~~~~~~~~~
     socket.on("welcome", (msg) => {
       console.log(msg);
     });
 
+    // ~~~~~~~~~~~~ socket.on("connect_error") ~~~~~~~~~~~~
     socket.on('connect_error', (err) => {
       console.error('Connection failed:', err.message);
       setTimeout(() => socket.connect(), 5000); // Retry after 5 seconds
