@@ -7,12 +7,13 @@ const app = express();
 const server = createServer(app);
 const PORT = process.env.PORT || 3000;
 
-const io = require('socket.io')(server, {
+const io = new Server(server, {
   cors: {
     origin: 'https://chat-application-deb.vercel.app',
     methods: ['GET', 'POST'],
   },
 });
+
 
 // ~~~~~~~~~~~~~~~~~ middleware ~~~~~~~~~~~~~~~~~ 
 app.use(cors({ origin: 'https://chat-application-deb.vercel.app' }));
