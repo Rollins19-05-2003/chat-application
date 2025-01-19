@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 const App = () => {
   const socket = useMemo(
     () =>
-      io("https://chat-application-backend-hyir.onrender.com"),
+      io("https://chat-application-backend-kl7l.onrender.com/"),
     []
   );
 
